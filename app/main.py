@@ -5,15 +5,18 @@ from datetime import datetime
 from app.dummy_data import generate_dummy_data
 from app.recon_logic import reconcile_branch_gl
 
+# Initialize FastAPI app
 app = FastAPI()
 
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"]
+    allow_origins=['*'],
+    allow_methods=['*'],
+    allow_headers=['*']
 )
 
+# Generate dummy data once at startup
 data_df = generate_dummy_data()
 
 @app.get("/")
@@ -26,7 +29,7 @@ def reconcile(branch: str = Query(...), start: str = Query(...), end: str = Quer
     end_date = datetime.strptime(end, '%Y-%m-%d').date()
     balance, makeup, summary = reconcile_branch_gl(data_df.copy(), branch, start_date, end_date)
     return {
-        "balance_sheet": balance.to_dict(orient="records"),
-        "makeup": makeup.to_dict(orient="records"),
-        "summary": summary.to_dict(orient="records")
+        "balance_sheet": balance.to_dict(orient='records'),
+        "makeup": makeup.to_dict(orient='records'),
+        "summary": summary.to_dict(orient='records')
     }
