@@ -1,5 +1,12 @@
 main.py
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return {"message": "GL Reconciliation Backend is working!"}
+
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
 from app.dummy_data import generate_dummy_data
